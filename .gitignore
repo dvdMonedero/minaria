@@ -1,0 +1,11 @@
+# Ignorar archivos de entorno y otros artefactos generados
+.env
+.htaccess
+# Composer (si se usa)
+/vendor/
+# Archivos de depuración
+*.log
+# IDE y sistema operativo
+*.idea
+.DS_Store
+Thumbs.db
