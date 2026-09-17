@@ -103,7 +103,7 @@ $configRecursos = [
 
         // Tasa por segundo para los incrementos en tiempo real mediante JavaScript
         $tasaPorSegundo = $produccionHora / 3600;
-        $produccionRedondeada = intval($produccionHora);
+        $produccionRedondeada = (int)round($produccionHora);
     ?>
         <div class="recurso">
             <p>

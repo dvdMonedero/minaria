@@ -11,6 +11,7 @@ error_reporting(E_ALL);ini_set('display_errors', 1);
 //Crear el div de regiones (ancho o estrecho)
 function divRegiones($fullscreen){
 	$html_regiones = '';
+	require_once __DIR__ . '/cache.php';
 	if(empty($_SESSION['regiones'])){
 		$html_regiones .= "no hay regiones";
 		$html_regiones .= '		<div class="section">';
@@ -21,26 +22,38 @@ function divRegiones($fullscreen){
 		//Tabla ancha para escritorio
 		if($fullscreen == 1){
 			$html_regiones .= '<div class="solo-escritorio">';
-			$html_regiones .= '	<table class="info-table">';
-			$html_regiones .= '		<tr>';
-			$html_regiones .= '			<th>Región</th>';
-			$html_regiones .= '			<th>Tipo</th>';
-			$html_regiones .= '			<th>Producción</th>';
-			$html_regiones .= '			<th>Población</th>';
-			$html_regiones .= '			<th>Construcción</th>';
-			$html_regiones .= '		</tr>';								
-			$i = 1;				
+			$html_regiones .= '<table class="info-table">';
+			$html_regiones .= '<tr>';
+			$html_regiones .= '<th>Región</th>';
+			$html_regiones .= '<th>Tipo</th>';
+			$html_regiones .= '<th>Piedra</th>';
+			$html_regiones .= '<th>Metal</th>';
+			$html_regiones .= '<th>Madera</th>';
+			$html_regiones .= '<th>Comida</th>';
+			$html_regiones .= '<th>Oro</th>';
+			$html_regiones .= '<th>Mana</th>';
+			$html_regiones .= '</tr>';
+			$i = 1;
 			foreach($_SESSION['regiones'] as $region){
-				$html_regiones .= '	<tr>';
-				$html_regiones .= '		<td><span class="verdefluor">['.$i.']</span> <a id="region-'.$i.'-'.$region["idregion"].'" href="region.php?idr='.$region["idregion"].'">'.$region["nombre"].'</a></span></td>';
-				$html_regiones .= '		<td>'.$region["tipo"].'</td>';
-				$html_regiones .= '		<td>30 Metal</td>';
-				$html_regiones .= '		<td>120 Trabajadores</td>';
-				$html_regiones .= '		<td>Mina de oro (21%)</td>';
-				$html_regiones .= '	</tr>';
+				$prod = getRegionProduction($region['idregion'], getPDO());
+				$html_regiones .= '<tr>';
+				$html_regiones .= "<td><span class='verdefluor'>[{$i}]</span> <a id='region-{$i}-{$region['idregion']}' href='region.php?idr={$region['idregion']}'>{$region['nombre']}</a></td>";
+				$html_regiones .= "<td>{$region['tipo']}</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_piedra_hora']) . "</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_metal_hora']) . "</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_madera_hora']) . "</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_comida_hora']) . "</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_oro_hora']) . "</td>";
+				$html_regiones .= "<td>" . round((float)$prod['produccion_mana_hora']) . "</td>";
+				$html_regiones .= '</tr>';
 				$i++;
 			}
-			$html_regiones .= '	</table>';
+			$html_regiones .= '</table>';
+			$html_regiones .= '<div style="text-align: center; margin-top: 15px;">';
+			$html_regiones .= '<button class="button-basic"><a href="explorar.php">&lt;E<span style="text-decoration:underline">x</span>plorar&gt;</a></button>';
+			$html_regiones .= '</div>';
+			$html_regiones .= '</div>';
+			
 			$html_regiones .= '	<div style="text-align: center; margin-top: 15px;">';
 			$html_regiones .= '		<button class="button-basic"><a href="explorar.php">&lt;E<span style="text-decoration:underline">x</span>plorar&gt;</a></button>';
 			$html_regiones .= '	</div>';
@@ -49,6 +62,7 @@ function divRegiones($fullscreen){
 		}
 		//Tabla estrecha (para móvil o lateral en escritorio)
 		else{
+			//En la pantalla de reino no se muestra
 			if (basename($_SERVER['PHP_SELF']) == 'reino.php')
 				$html_regiones .= '<div class="solo-movil">';
 			else
@@ -57,7 +71,11 @@ function divRegiones($fullscreen){
 			$i = 1;
 			
 			foreach($_SESSION['regiones'] as $region){
-				$html_regiones .= '		<div class="region caja-gris-punteada">';
+				if(isset($_GET['idr']) && $i == $_GET['idr']){
+					$html_regiones .= '		<div class="region caja-gris-punteada no-en-escritorio">';
+				}else{
+					$html_regiones .= '		<div class="region caja-gris-punteada">';
+				}
 				$html_regiones .= '			<div class="region-header">';
 				$html_regiones .= '				<span><span class="verdefluor">['.$i.']</span> '.$region["nombre"].'</span></span>';
 				$html_regiones .= '				<span class="toggle alreves">^</span>';
@@ -109,17 +127,17 @@ function divEdificios($arr_edificios){
 		$html_edificios .= '	<p>Necesario para subir a nivel '.(intval($edificio["nivel"])+1).':</p>';
 		$html_edificios .= $html_requeridos;
 		if($edificio["coste_piedra"] > 0)
-			$html_edificios .= '	<p>Piedra: '.$edificio["coste_piedra"].' <span class="icono-recurso">🪨</span></p>';
+			$html_edificios .= '	<p>Piedra: '.round((float)$edificio["coste_piedra"]).' <span class="icono-recurso">🪨</span></p>';
 		if($edificio["coste_metal"] > 0)
-			$html_edificios .= '	<p>Metal: '.$edificio["coste_metal"].' <span class="icono-recurso">⛏️</span></p>';
+			$html_edificios .= '	<p>Metal: '.round((float)$edificio["coste_metal"]).' <span class="icono-recurso">⛏️</span></p>';
 		if($edificio["coste_madera"] > 0)
-			$html_edificios .= '	<p>Madera: '.$edificio["coste_madera"].' <span class="icono-recurso">🌲</span></p>';
+			$html_edificios .= '	<p>Madera: '.round((float)$edificio["coste_madera"]).' <span class="icono-recurso">🌲</span></p>';
 		if($edificio["coste_comida"] > 0)
-			$html_edificios .= '	<p>Comida: '.$edificio["coste_comida"].' <span class="icono-recurso">🍗</span></p>';
+			$html_edificios .= '	<p>Comida: '.round((float)$edificio["coste_comida"]).' <span class="icono-recurso">🍗</span></p>';
 		if($edificio["coste_oro"] > 0)
-			$html_edificios .= '	<p>Oro: '.$edificio["coste_oro"].' <span class="icono-recurso">💰</span></p>';
+			$html_edificios .= '	<p>Oro: '.round((float)$edificio["coste_oro"]).' <span class="icono-recurso">💰</span></p>';
 		if($edificio["coste_magia"] > 0)
-			$html_edificios .= '	<p>Mana: '.$edificio["coste_magia"].'<span class="icono-recurso">✨</span></p>';
+			$html_edificios .= '	<p>Mana: '.round((float)$edificio["coste_magia"]).'<span class="icono-recurso">✨</span></p>';
 		// Mostrar el botón si se puede construir
 		if ($puedeConstruir) {
 			$html_edificios .= "<button class='button-basic'><a href='reino.php'>&lt;".($mensajeBoton === 'Construir' ? 'Construir' : 'Subir a nivel ' . ($requerido["nivel"] + 1))."&gt;</a></button>";

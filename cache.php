@@ -9,6 +9,9 @@ if (!function_exists('getRegionProduction')) {
         if (function_exists('apcu_fetch')) {
             $cached = apcu_fetch($cacheKey, $success);
             if ($success && is_array($cached)) {
+                foreach ($cached as $k => $v) {
+                    $cached[$k] = (int)round((float)$v);
+                }
                 return $cached;
             }
         }
@@ -17,6 +20,9 @@ if (!function_exists('getRegionProduction')) {
         if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < 60)) {
             $data = json_decode(file_get_contents($cacheFile), true);
             if (is_array($data)) {
+                foreach ($data as $k => $v) {
+                    $data[$k] = (int)round((float)$v);
+                }
                 if (function_exists('apcu_store')) {
                     apcu_store($cacheKey, $data, 60);
                 }
@@ -48,6 +54,10 @@ if (!function_exists('getRegionProduction')) {
                 'produccion_oro_hora' => 0,
                 'produccion_mana_hora' => 0,
             ];
+        } else {
+            foreach ($row as $k => $v) {
+                $row[$k] = (int)round((float)$v);
+            }
         }
         // Guardar en cachés
         if (function_exists('apcu_store')) {
