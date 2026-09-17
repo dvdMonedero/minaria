@@ -1,0 +1,171 @@
+a {
+  color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.no-en-ultrasimple {
+  display: none;
+}
+
+/* Menú horizontal */
+.recursos-superior {
+  padding-bottom: 0.5em;
+}
+
+.icono-recurso {
+  display: none;
+}
+
+/* Contenedor principal */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+
+/* Contenido principal */
+.content {
+  flex: 1;
+  padding: 0 10px 0 10px;
+}
+
+/* Tablas */
+.info-table td,
+.info-table th {
+  padding: 0;
+}
+
+.info-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+
+.region {
+  padding: 0
+}
+
+
+/* Secciones de texto */
+.section {
+  padding: 0
+}
+
+.section h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.section-content {
+  /*border: 1px dashed #555; Estilo simple: lo quitamos */
+  padding: 0;
+  /*background-color: #111; Estilo simple: lo quitamos */
+}
+
+/* Div regiones derecho */
+.div-regiones {
+  width: 25%;
+  /* Ajusta el ancho cuando es lateral */
+  padding: 10px;
+}
+
+.region-header {
+  cursor: pointer;
+}
+
+/* Botones estillo básico MS-DOS */
+.button-basic {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: #fff;
+  background-color: #000;
+  /*border: 2px solid #222; Estilo simple: lo quitamos */
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button-basic:active {
+  transform: translateY(2px);
+  border-color: #222;
+}
+
+.toggle {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .main-container {
+    flex-direction: column !important;
+  }
+
+  .content {
+    padding-top: 0;
+  }
+
+  .content {
+    order: 2;
+  }
+
+  .div-lateral {
+    width: 100%;
+    border-left: none;
+    border-top: none;
+    order: 1;
+  }
+
+  .recursos-nombre {
+    display: none;
+  }
+
+  .recursos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .recursos-produccion {
+    display: none;
+  }
+
+  .solo-escritorio {
+    display: none;
+  }
+
+  .solo-movil {
+    display: block;
+  }
+}
+
+@media (orientation: landscape) {
+  .solo-movil {
+    display: none;
+    /* Oculta el diseño alternativo en escritorio */
+  }
+
+  .solo-escritorio {
+    display: block;
+  }
+}
+
+/* Ultrasimple mode: hide graphical bar, show numeric percentage */
+.progress-bar-container {
+  display: none;
+}
+
+.percentage-text {
+  color: #fff;
+}
+
+#timer {
+  color: #fff;
+}

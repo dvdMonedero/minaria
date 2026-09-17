@@ -1,0 +1,224 @@
+a {
+  color: #00ff00;
+}
+
+.no-en-visual {
+  display: none;
+}
+
+/* Colores textos destacados */
+.rojofluor {
+  color: #ff0000;
+}
+
+.verdefluor {
+  color: #39ff14;
+}
+
+/*
+.caja {
+	border: 2px solid #444;
+}
+*/
+
+.caja-gris-punteada {
+  border: 1px dashed #555;
+  padding: 10px;
+  background-color: #111;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Menú horizontal */
+.recursos-superior {
+  background-color: #333;
+}
+
+/* Contenedor principal */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+
+/* Contenido principal */
+.content {
+  flex: 1;
+}
+
+/* Tablas */
+.info-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.info-table td,
+.info-table th {
+  padding: 5px 10px;
+  text-align: left;
+  border: 1px solid #444;
+}
+
+.info-table th {
+  background-color: #222;
+  /*color: #ddd;        */
+}
+
+.info-table td {
+  /*color: #aaa;        */
+}
+
+/* Secciones de texto */
+.section {
+  margin-top: 10px;
+  padding: 0 10px 0 10px;
+}
+
+.section h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.caja-gris-punteada {
+  border: 1px dashed #555;
+  padding: 10px;
+  background-color: #111;
+}
+
+/* Div regiones derecho */
+.div-regiones {
+  width: 25%;
+  /* Ajusta el ancho cuando es lateral */
+  padding: 10px;
+}
+
+.region {
+  border: 1px dashed #555;
+  background-color: #111;
+}
+
+.region-header {
+  cursor: pointer;
+}
+
+.region-content {
+  margin-top: 10px;
+  display: none;
+  /* Inicialmente colapsado */
+}
+
+/* Botones estillo básico MS-DOS */
+.button-basic {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  color: #fff;
+  background-color: #000;
+  border: 2px solid #222;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button-basic:hover {
+  background-color: #222;
+}
+
+.button-basic:active {
+  transform: translateY(2px);
+  border-color: #222;
+}
+
+.toggle {
+  float: right;
+}
+
+@media (orientation: portrait) {
+  .main-container {
+    flex-direction: column !important;
+  }
+
+  .content {
+    padding-top: 0;
+  }
+
+  .content {
+    order: 2;
+  }
+
+  /*
+	.div-lateral {
+		width: 100%;
+		border-left: none;
+		border-top: none;	order: 1;
+	}
+	*/
+
+  .recursos-nombre {
+    display: none;
+  }
+
+  .recursos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .recursos-produccion {
+    display: none;
+  }
+
+  .solo-escritorio {
+    display: none;
+  }
+
+  .solo-movil {
+    display: block;
+  }
+}
+
+@media (orientation: landscape) {
+  .solo-movil {
+    display: none;
+    /* Oculta el diseño alternativo en escritorio */
+  }
+
+  .solo-escritorio {
+    display: block;
+  }
+}
+
+/* Progress Bar Styles for Visual Mode */
+.progress-bar-container {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  /* no rounded corners */
+  overflow: hidden;
+  margin-top: 5px;
+  height: 20px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #39ff14;
+  /* neon green */
+  border-radius: 0;
+  transition: width 0.5s ease;
+}
+
+.percentage-text {
+  color: #fff;
+}
+
+#timer {
+  color: #fff;
+}
